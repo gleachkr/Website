@@ -1,0 +1,71 @@
+---
+splash: <img id="splash" src="./images/NasaAsterCropsreduced.jpg" alt="Haskell County, Kansas" width=100%>
+---
+<div> 
+    <h1 id="RecentMe">About Me</h1>
+    <p>
+        I'm an assistant professor in the philosophy department at Kansas
+        State University. You can find something about my research and teaching
+        below. 
+        <!-- My CV is here: <a href=CV.html>Curriculum Vitae</a> -->
+    </p>
+    <!-- <p> -->
+    <!--     Some little tools and interactive logic games that I occasionally work -->
+    <!--     on as a hobby are here: <a href="Geekery.html">Geekery</a>. -->
+    <!-- </p> -->
+</div>
+
+<div>
+    <h1 id="RecentTeaching">Teaching</h1>
+    <p>
+        This semester, I'm teaching
+    </p>
+    $for(courses)$
+    <div class="course">
+        <h2><a href="$url$">$course_title$</a></h2>
+        <div class="info">
+            <table>
+                <tr>
+                    <td>Time:</td><td> $time$</td>
+                </tr>
+                <tr>
+                    <td>Location</td> <td>$location$</td>
+                </tr>
+                <tr>
+                    <td>Class Number:</td> <td>$class_number$</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    $endfor$
+    <!-- <p> -->
+    <!--     You can find more teaching information and class materials here: <a -->
+    <!--         href="Teaching.html">Teaching</a>. -->
+    <!-- </p> -->
+</div> 
+<div>
+    <h1 id="RecentResearch">Research</h1>
+    <p>
+        My research interests are mainly in logic and the philosophy of
+        mathematics. I'm especially interested in questions about the nature of
+        proof and about the implications of incompleteness phenomena
+        for mathematical knowledge and practice.
+    </p>
+    <p>
+        I like mathematics that aims at conceptual clarification, and
+        conceptual clarification that gives rise to beautiful mathematics. 
+    </p>
+    <!-- <p> -->
+    <!--     Here are some recent conference presentations and publications. -->
+    <!-- </p> -->
+    <!--     $for(presentations)$ -->
+    <!--     <p> foo </p> -->
+    <!--     $endfor$ -->
+    <!--     $for(papers)$ -->
+    <!--     <p> bar </p> -->
+    <!--     $endfor$ -->
+    <!-- <p> -->
+    <!--    Other materials, including drafts and works in progress, can be found -->
+    <!--    here: <a href="Publications.html">Other Publications</a>. -->
+    <!-- </p> -->
+</div>

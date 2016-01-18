@@ -1,0 +1,20 @@
+<html>
+<head>
+    $if(js)$
+        $js$
+    $endif$
+    $if(css)$
+        <link href="/resources/$css$" rel="stylesheet" media="screen" type="text/css" >
+        $if(print_css)$
+            <link href="/resources/$print_css$" rel="stylesheet" media="print" type="text/css" >
+        $else$
+            <link href="/resources/$css$" rel="stylesheet" media="print" type="text/css" >
+        $endif$
+    $endif$
+    <link href="/resources/main.css" rel="stylesheet" media="screen" type="text/css" >
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+</head>
+<body id='body'>
+$body$
+</body>
+</html>

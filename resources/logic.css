@@ -1,0 +1,28 @@
+.argument {
+  display: table;
+  padding: 10pt;
+}
+
+.argument ol {
+    list-style:none;
+}
+
+.argument li:last-child {
+    border-top:1px black solid;
+}
+
+.algorithm {
+    padding:10px;
+    margin-left:10px;
+    margin-right:10px;
+    background: #F0F8FF;
+}
+
+object.tikzImage {
+    width:400pt;
+}
+
+table {
+    padding-left: 20pt;
+    font-size: 14pt;
+}

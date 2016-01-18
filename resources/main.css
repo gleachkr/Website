@@ -1,0 +1,352 @@
+@font-face {
+	font-family: 'CMU Serif';
+	src: url('/resources/fonts/cmunrm.eot');
+	src: url('/resources/fonts/cmunrm.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunrm.woff') format('woff'),
+		 url('/resources/fonts/cmunrm.ttf') format('truetype'),
+		 url('/resources/fonts/cmunrm.svg#cmunrm') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'CMU Serif';
+	src: url('/resources/fonts/cmunbx.eot');
+	src: url('/resources/fonts/cmunbx.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunbx.woff') format('woff'),
+		 url('/resources/fonts/cmunbx.ttf') format('truetype'),
+		 url('/resources/fonts/cmunbx.svg#cmunbx') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'CMU Serif';
+	src: url('/resources/fonts/cmunti.eot');
+	src: url('/resources/fonts/cmunti.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunti.woff') format('woff'),
+		 url('/resources/fonts/cmunti.ttf') format('truetype'),
+		 url('/resources/fonts/cmunti.svg#cmunti') format('svg');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'CMU Serif';
+	src: url('/resources/fonts/cmunbi.eot');
+	src: url('/resources/fonts/cmunbi.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunbi.woff') format('woff'),
+		 url('/resources/fonts/cmunbi.ttf') format('truetype'),
+		 url('/resources/fonts/cmunbi.svg#cmunbi') format('svg');
+	font-weight: bold;
+	font-style: italic;
+}
+
+
+@font-face {
+	font-family: 'CMU Sans Serif';
+	src: url('/resources/fonts/cmunss.eot');
+	src: url('/resources/fonts/cmunss.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunss.woff') format('woff'),
+		 url('/resources/fonts/cmunss.ttf') format('truetype'),
+		 url('/resources/fonts/cmunss.svg#cmunss') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'CMU Sans Serif';
+	src: url('/resources/fonts/cmunsx.eot');
+	src: url('/resources/fonts/cmunsx.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunsx.woff') format('woff'),
+		 url('/resources/fonts/cmunsx.ttf') format('truetype'),
+		 url('/resources/fonts/cmunsx.svg#cmunsx') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'CMU Sans Serif';
+	src: url('/resources/fonts/cmunsi.eot');
+	src: url('/resources/fonts/cmunsi.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunsi.woff') format('woff'),
+		 url('/resources/fonts/cmunsi.ttf') format('truetype'),
+		 url('/resources/fonts/cmunsi.svg#cmunsi') format('svg');
+	font-weight: normal;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'CMU Sans Serif';
+	src: url('/resources/fonts/cmunso.eot');
+	src: url('/resources/fonts/cmunso.eot?#iefix') format('embedded-opentype'),
+		 url('/resources/fonts/cmunso.woff') format('woff'),
+		 url('/resources/fonts/cmunso.ttf') format('truetype'),
+		 url('/resources/fonts/cmunso.svg#cmunso') format('svg');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+    font-family: 'CMU Serif SmallCaps';
+    src: url('/resources/fonts/cmunrm-SC.eot');
+    src: url('/resources/fonts/cmunrm-SC.eot?#iefix') format('embedded-opentype'),
+         url('/resources/fonts/cmunrm-SC.woff') format('woff'),
+         url('/resources/fonts/cmunrm-SC.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+object {
+    pointer-events: none;
+}
+body {
+    font-family:'CMU Serif';
+    margin:0px;
+}
+p, dl {
+    font-size:14pt;
+    line-height:20pt;
+    text-rendering: optimizeLegibility;
+    /* auto-kerning and ligatures */
+    -webkit-font-variant-ligatures: common-ligatures;
+    -webkit-font-feature-settings: "kern";
+    -moz-font-feature-settings: "kern=1";
+    font-variant-ligatures: common-ligatures;
+    font-feature-settings: "kern";
+    font-kerning: normal;
+    /* kerning and ligatures for some special cases */
+}
+a { color: black;
+    text-decoration:none;
+    background-image: linear-gradient(to top,
+        rgba(0,0,0,0) 11%,
+        rgba(0,0,0,.3) 11%,
+        rgba(0,0,0,.3) 16%,
+        rgba(0,0,0,0) 16%);
+}
+
+h1 { 
+    font-family:'CMU Sans Serif';
+    font-size:48px;
+    padding-top:40px;
+    margin-top:0px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family:'CMU Sans Serif';
+    font-weight:normal;
+}
+dt {
+    font-family:'CMU Serif SmallCaps';
+}
+dd p {
+    margin-top:0px;
+}
+/* fix super-subscript line disruption */
+sub, sup { 
+	font-size: 75%;
+	line-height: 0; 
+	position: relative; 
+	vertical-align: baseline; 
+}
+sup { 
+	top: -0.5em; 
+}
+sub { 
+	bottom: -0.25em; 
+}
+
+#content {
+    position:absolute;
+    top:0px;
+    right:0px;
+    width:60%;
+    height:100%;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+#content li {
+    font-size:13pt;
+}
+#content #mainText{
+    padding-right:20px;
+    max-width:620px;
+    margin-right:40pt;
+    margin-bottom:200px;
+}
+#content td{
+    padding-right:15px;
+}
+
+#outerbar {
+    position:absolute;
+    left:10px;
+    margin-top:40px;
+    margin-bottom:40px;
+}
+
+#navBar {
+    position:relative;
+    font-family:'CMU Sans Serif';
+    padding-right:40px;
+    border-right:2px solid;
+    width:220px;
+    float:left;
+    padding-left:60px;
+    text-align:right;
+    right: -2px; 
+}
+#navBar div {
+    font-size:48px;
+    display:inline-block;
+}
+#navbar a, #sidebar a {
+    background-image:none;
+}
+
+#sideBar {
+    border-left: 2px solid black;
+    font-size:12px;
+    color:gray;
+    width:220px;
+    float:left;
+    padding-left:40px;
+    padding-right:20px;
+    position:relative;
+    overflow:hidden;
+    /* don't remove!; defaults to visible, which screws up several other things */
+}
+#sideBar div {
+    padding-top:12px;
+    padding-bottom:5px;
+}
+#sideBar span {
+    display:block;
+    margin-right:20px;
+}
+#sideBar ul {
+    font-family:'CMU Sans Serif';
+    font-size:12px;
+    counter-reset: item;
+    text-align:left; 
+    margin:0;
+    padding-left:0;
+    text-indent:-1em;
+}
+#sideBar li {
+    display: block;
+    margin-left:1em;
+}
+#sideBar li li {
+    margin-left:10px;
+}
+#sideBar li:before { 
+    content: counters(item, ".") ". "; 
+    counter-increment: item;
+}
+
+#toc {
+    width:136px;
+    padding-right:20px;
+    padding-right:0;
+}
+
+.course{
+    display: inline-block;
+    padding-left:20px;
+}
+.course a {
+    background-image:none;
+}
+
+.info{
+    padding-left:20px;
+    border-left:5px solid gray;
+}
+
+.table2 table {
+    margin-left:auto;
+    margin-right:auto;
+    display:table;
+    border-color:gray;
+    border-collapse: collapse;
+    font-size:16pt;
+}
+.table2 td {
+    padding-left:10pt;
+    padding-right:10pt;
+    border-right:1px solid gray;
+}
+.table2 th {
+    padding-left:5pt;
+    padding-right:10pt;
+    border-right:1px solid gray;
+    border-bottom: 1px solid gray;
+}
+
+@media (max-width: 1350px){
+    #sideBar {
+        float:none;
+        left:2px;
+        border-left: none;
+        border-right:2px solid black;
+        margin-top:0px;
+        display:block;
+        margin-left:80px;
+        width:180px;
+    }
+    #sideBar div, #sideBar span {
+        float:right;
+    }
+    #navBar {
+      display:block;
+      float:none;
+  } 
+}
+@media (max-width: 870px){
+    body {
+        overflow-y:scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+     #navBar {
+        float:left;
+    }
+
+    #outerBar {
+        position:relative;
+        left:10px;
+    }
+
+    #sideBar {
+        left:0px;
+        border-right:none;
+        border-left: 2px solid black;
+    }
+    #sideBar div {
+        float:none;
+    }
+   #sideBar span { 
+        float:none;
+        margin-right:20pt;
+    }
+
+    #content {
+        width:100%;
+        position:relative;
+        float:left;
+        left:0px;
+        overflow-y:visible;
+    }
+    #content div#maintext {
+        padding:20px;
+        margin-right:5%;
+        margin-left:5%;
+    }
+}
+@media (max-width: 563px) {
+    #sideBar {
+        border-left:none;
+        border-right:2px solid black;
+        margin-left:80px;
+        left:2px;
+    }
+    #sideBar div, #sideBar span {
+        float:right;
+    }
+    #content div#mainText {
+        padding:20px;
+    }

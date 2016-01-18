@@ -1,0 +1,39 @@
+---
+js: <script type="text/javascript" src="/scripts/CartargrapherClone.js"></script>
+css: arg_tree.css
+print_css: arg_tree_print.css
+---
+
+<!--
+We will create a family tree using just CSS(3)
+The markup will be simple nested lists
+-->
+<span id='hint'>
+    Your tree is over to the right
+</span>
+<table id='movetable'>
+    <tr>
+        <td> Objection: </td><td> <div class='Move' id='objection'></div></td>
+    </tr>
+    <tr>
+        <td> Support: </td><td> <div class='Move' id='support'></div></td>
+    </tr>
+</table>
+<div class="tree" id="Start">
+	<ul class='Neck'>
+		<li>
+            <div class='Root thesis'>
+                <textarea></textarea>
+            </div>
+            <ul>
+                <li>
+                    <div class='Leaf'>+</div>
+                </li>
+            </ul>
+		</li>
+	</ul>
+</div>
+<div id='analysandum'>
+    <textarea>
+    </textarea>
+</div>

@@ -1,0 +1,140 @@
+/*Now the CSS*/
+* {margin: 0; padding: 0;}
+
+body {
+    width:4000pt
+}
+
+.tree {
+    margin-left:100pt;
+    position:relative;
+ }
+
+.tree ul {
+	padding-top: 20px; 
+    position: relative;
+    list-style-type: none;
+}
+
+.tree li {
+	float: left; text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 20px 5px 0 5px;
+}
+
+/* Hide the Leaves */
+.tree li ul li:last-child::after, .tree li li:last-child::before {
+    display: none;
+}
+
+.tree li ul li:last-child {
+    display: none;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+.tree li::before, .tree li::after{
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 20px;
+}
+.tree li::after{
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
+}
+
+.tree li:nth-last-child(2)::after, .tree li:last-child::before {
+	display: none;
+}
+/*Remove space from the top of single children*/
+.tree li:only-child{ 
+    padding-top: 0;
+    margin-left:50px;
+}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.tree li:first-child::before, .tree li:nth-last-child(2)::after{
+	border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.tree li:nth-last-child(2)::before{
+	border-right: 1px solid #ccc;
+	/* border-radius: 0 5px 0 0; */
+	/* -webkit-border-radius: 0 5px 0 0; */
+	/* -moz-border-radius: 0 5px 0 0; */
+}
+.tree li:first-child::after{
+	/* border-radius: 5px 0 0 0; */
+	/* -webkit-border-radius: 5px 0 0 0; */
+	/* -moz-border-radius: 5px 0 0 0; */
+}
+
+/*Time to add downward connectors from parents*/
+.tree ul ul.grand::before{ 
+ 	content: ''; 
+	position: absolute; top: -20px; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 40px;
+}
+
+.tree textarea {
+    height:80px;
+    max-width:160px;
+}
+td {
+    padding:10px;
+}
+#movetable {
+    display:none;
+}
+
+.Root {
+    position: relative;
+    margin-bottom:20px;
+}
+.Node {
+    display: inline-block;
+    position: relative;
+    margin-bottom:20px;
+}
+
+.Leaf {
+    font-size:26pt;
+    font-weight:bold;
+    border-radius:50%;
+    height: 50px;
+    width: 50px;
+    margin-bottom:20px;
+    border:dashed 1px black;
+}
+
+.thesis textarea {
+    background:AliceBlue;
+}
+
+.antithesis textarea {
+    background:MistyRose; 
+}
+
+#analysandum {
+    display:inline;
+    padding-left:50px; 
+    margin:0 0;
+}
+
+#analysandum textarea { 
+    width:250px; 
+    height:200px;
+}
+
+#hint {
+    display:none;
+}

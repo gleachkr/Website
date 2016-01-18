@@ -1,0 +1,161 @@
+/*Now the CSS*/
+/* * {margin: 0; padding: 0;} */
+
+body {
+    overflow:auto;
+    width:4000px;
+}
+
+.tree {
+    display: table;
+    margin: 0 auto;
+    padding-top:50pt;
+ }
+
+.tree ul {
+	padding-top: 20px; 
+    position: relative;
+    white-space: nowrap;
+    list-style-type: none;
+	
+	/* transition: all 0.5s; */
+	/* -webkit-transition: all 0.5s; */
+	/* -moz-transition: all 0.5s; */
+    /* these add the "bouncing in" animation, but only to nodes on the left, which feels awkward */
+}
+
+.tree li {
+	float: left; 
+    text-align: center; 
+	/* list-style-type: none; */
+	position: relative;
+	padding: 20px 5px 0 5px;
+    
+	
+	/* transition: all 0.5s; */
+	/* -webkit-transition: all 0.5s; */
+	/* -moz-transition: all 0.5s; */
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+.tree li::before, .tree li::after{
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 20px;
+}
+
+.tree li::after{
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
+}
+
+/*Remove space from the top of single children*/
+.tree li:only-child{ 
+    padding-top: 0;
+    margin-left:12.5px;
+}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.tree li:last-child::before{
+	border-right: 1px solid #ccc;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+.tree ul ul::before{
+	content: '';
+	position: absolute; top: -20px; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 40px;
+    list-style-type: none;
+}
+
+.tree textarea {
+    height:80px;
+    max-width:160px;
+}
+#movtable td {
+    padding:10px;
+}
+#movetable {
+    position:fixed;
+    left:20px;
+    top:30px;
+    z-index:1;
+}
+
+.Root {
+    position: relative;
+    margin-bottom:20px;
+}
+.Node {
+    display: inline-block;
+    position: relative;
+    margin-bottom:20px;
+}
+.Leaf {
+    font-size:26pt;
+    font-weight:bold;
+    border-radius:50%;
+    height: 50px;
+    width: 50px;
+    margin-bottom:20px;
+    border:dashed 1px black;
+}
+
+.Move {
+    border-radius:50%;
+    display: inline-block;
+    vertical-align:middle;
+    height: 50px;
+    width: 50px;
+    position: relative;
+    border:dashed 1px black;
+}
+
+.dropOver {
+    border:dashed 2px black;
+}
+
+.thesis textarea {
+    background:AliceBlue;
+}
+
+.antithesis textarea {
+    background:MistyRose; 
+}
+
+#analysandum {
+    display:table; 
+    padding-left:50px; 
+    margin:0 auto;
+    margin-bottom:50pt;
+}
+
+#analysandum textarea {
+    width:250px; 
+    height:200px;
+}
+
+#hint {
+    padding-left:100px;
+}
