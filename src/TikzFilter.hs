@@ -45,13 +45,13 @@ processTikzInTmp code id cleanName path = do
                 writefile "tikz.tex" $ texTemplate code
                 run_ "pdflatex" ["tikz.tex"]
                 run_ "pdf2svg" ["tikz.pdf", cleanName]
-                mv (fromText cleanName) $ origin </> "_site/images/"
+                cp (fromText cleanName) $ origin </> "_site/images/"
 
 --add a check to see if a recent version of the file already exists.
 tikzToSVG :: Text -> Text -> Block
 tikzToSVG code id = unsafePerformIO $ do
         let cleanName = Data.Text.map cleanspecials id <> ".svg"        
-        shelly $ silently $ withTmpDir (processTikzInTmp code id cleanName)
+        shelly $ withTmpDir (processTikzInTmp code id cleanName)
         let nameString = unpack cleanName
         return $ RawBlock (Format "html") (htmlWrap nameString)
 

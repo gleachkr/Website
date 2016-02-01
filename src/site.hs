@@ -4,9 +4,9 @@ import           Data.Monoid (mempty, mappend)
 import           Data.Functor
 import           Data.Time.Clock 
 import           Data.Time.Calendar
+import           Data.Time.Format (defaultTimeLocale)
 import           Control.Monad (filterM)
 import           System.FilePath (takeDirectory)
-import           System.Locale (defaultTimeLocale)
 import           Hakyll
 import           Text.Pandoc
 import           Text.Pandoc.Walk
@@ -14,6 +14,7 @@ import           Fay as F
 import           TikzFilter
 import           Data.Map as M (lookup)
 import           Data.Set as S (singleton, union)
+import           System.IO.Unsafe
 
 --------------------------------------------------------------------------------
 theConfiguration :: Configuration
@@ -30,7 +31,7 @@ main = hakyllWith theConfiguration $ do
         route   idRoute
         compile compressCssCompiler
 
-    match "resources/*" $ do
+    match ("resources/*" .||. "resources/**/*") $ do
         route   idRoute
         compile copyFileCompiler
 
@@ -64,6 +65,14 @@ main = hakyllWith theConfiguration $ do
         route $ metadataRoute noteRoute
         compile noteCompiler
 
+    -- match "slides/**/*.md" $ do
+    --     route $ metadataRoute slideRoute
+    --     compile slidesFromPandocCompiler 
+
+    match ("slides/*.html" .||. "slides/*.html.metadata") $ do
+        route $ metadataRoute slideRoute
+        compile copyFileCompiler
+
     match "syllabi/*" $ compile bodyPandocCompiler
 
     --compile a main page for each course
@@ -93,15 +102,15 @@ main = hakyllWith theConfiguration $ do
 --Compilers---------------------------------------------------------------------
 
 --compiles the salient pandoc resource, with TikzBlocks
+bodyPandocCompiler :: Compiler (Item String)
 bodyPandocCompiler = do 
         id <- getUnderlying
+        body <- getResourceBody
+        readBody <- readPandocWith defaultHakyllReaderOptions
+                        { readerExtensions = S.union pandocExtensions $ S.singleton Ext_tex_math_double_backslash } body
         let pathText = toFilePath id
-        writePandocWith defaultHakyllWriterOptions 
-            <$> fmap (walk (tikzBlock pathText))
-            <$> readPandocWith defaultHakyllReaderOptions
-                { readerExtensions = S.union pandocExtensions $ S.singleton Ext_tex_math_double_backslash }
-            <$> getResourceBody
-
+        return $ writePandocWith defaultHakyllWriterOptions $ walk (tikzBlock pathText) readBody
+        
 --generates a TOC for the salient pandoc resource
 tocPandocCompiler =  pandocCompilerWith defaultHakyllReaderOptions 
         (defaultHakyllWriterOptions { writerTableOfContents = True, 
@@ -120,8 +129,7 @@ fayToJsCompiler :: Compiler (Item String)
 fayToJsCompiler = do 
         path   <- getResourceFilePath
         let dir = takeDirectory path
-        let localConfig = defaultConfig {
-                configPackageConf = Just "/Users/Graham/Sites/MySite/.cabal-sandbox/x86_64-osx-ghc-7.8.3-packages.conf.d/"}
+        let localConfig = unsafePerformIO defaultConfigWithSandbox 
         let localConfig' = addConfigDirectoryIncludePaths [dir] localConfig
         fayOut <- unsafeCompiler (compileFile localConfig' path)
         makeItem (mergeCases fayOut)
@@ -264,11 +272,21 @@ itemUrl = fmap (maybe "" toUrl) . getRoute . itemIdentifier
 
 noteRoute :: Metadata -> Routes
 noteRoute m = constRoute $ 
-    ctCatch (M.lookup "course_title" m) ++ "/" ++ ntCatch(M.lookup "note_title" m) ++ ".html"
+    ctCatch (M.lookup "course_title" m) ++ "/" 
+    ++ ntCatch(M.lookup "note_title" m) ++ ".html"
     where ctCatch ( Just s )  = cleanName s
           ctCatch ( Nothing ) = "NoTitle"
           ntCatch ( Just s  ) = cleanName s
           ntCatch ( Nothing ) = "Untited_Note"
+
+slideRoute :: Metadata -> Routes
+slideRoute m = constRoute $ 
+    ctCatch (M.lookup "course_title" m) ++ "/" 
+    ++ ntCatch(M.lookup "slide_title" m) ++ ".html"
+    where ctCatch ( Just s )  = cleanName s
+          ctCatch ( Nothing ) = "NoTitle"
+          ntCatch ( Just s  ) = cleanName s
+          ntCatch ( Nothing ) = "Untited_Slides"
 
 -- returns a route based on the course title in the metadata, plus the page
 -- title fed into the function, for use with 
