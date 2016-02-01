@@ -64,14 +64,17 @@ main = hakyllWith theConfiguration $ do
     match "notes/**/*.md" $ do
         route $ metadataRoute noteRoute
         compile noteCompiler
+    
+    --load but do not compile metadata files
+    match "**/*.metadata" $ return ()
 
     -- match "slides/**/*.md" $ do
     --     route $ metadataRoute slideRoute
     --     compile slidesFromPandocCompiler 
 
-    match ("slides/*.html" .||. "slides/*.html.metadata") $ do
+    match "slides/*.html" $ do
         route $ metadataRoute slideRoute
-        compile copyFileCompiler
+        compile getResourceBody
 
     match "syllabi/*" $ compile bodyPandocCompiler
 
@@ -84,6 +87,11 @@ main = hakyllWith theConfiguration $ do
     match "courses/*" $ version "syllabus" $ do
         route $ metadataRoute $ courseRoute "Syllabus.html"
         compile syllabusCompiler     
+        
+    --create a slides directory for each course
+    match "courses/*" $ version "slides" $ do
+        route $ metadataRoute $ courseRoute "Slides.html"
+        compile slidesListCompiler
 
     match "geekery/*.html" $ do
         route idRoute
@@ -142,13 +150,21 @@ loadSortedMatchingCompiledNotes = do
         classNotesList <- filterByMDMatch "course_title" allNotesList
         chronological classNotesList
 
+loadSortedMatchingCompiledSlides :: Compiler [Item String]
+loadSortedMatchingCompiledSlides = do
+        allSlidesList   <- loadAll ("slides/**/*" .||. "slides/*")
+        classSlidesList <- filterByMDMatch "course_title" allSlidesList
+        chronological classSlidesList
+
 --compiles the front page for the course given by the salient resource
 courseCompiler = do 
         notes    <- loadSortedMatchingCompiledNotes
+        slides   <- loadSortedMatchingCompiledSlides
         firstUrl <- if Prelude.null notes then return "" else itemUrl (head notes)
         let courseCtx = 
-                interpolationField "sideBar" "components/courseInfoSide.html"                         `mappend`
-                (if Prelude.null notes then mempty else constField "first_note" firstUrl)             `mappend`
+                interpolationField "sideBar" "components/courseInfoSide.html"              `mappend`
+                (if Prelude.null notes  then mempty else constField "first_note" firstUrl) `mappend`
+                (if Prelude.null slides then mempty else constField "has_slides" "yes")    `mappend`
                 courseContext
         getResourceBody
             >>= loadAndApplyTemplate "templates/default.html" courseCtx
@@ -159,7 +175,9 @@ courseCompiler = do
 --resource
 syllabusCompiler = do 
         notes       <- loadSortedMatchingCompiledNotes
-        firstUrl    <- if Prelude.null notes then return "" else itemUrl (head notes)
+        firstUrl    <- if Prelude.null notes then return "" 
+                                             else itemUrl (head notes)
+        slides <- loadSortedMatchingCompiledSlides
         resourceMD  <- getResourceMD
         syllabi     <- loadAll ("syllabi/*" .&&. hasNoVersion)
         matches     <- filterByMDMatch "course_title" syllabi
@@ -167,12 +185,31 @@ syllabusCompiler = do
         let syllabusCtx = 
                 interpolationField "sideBar" "components/syllabusSide.html"                 `mappend`
                 (if Prelude.null notes then mempty else constField "first_note" firstUrl)   `mappend`
+                (if Prelude.null slides then mempty else constField "has_slides" "yes")    `mappend`
                 (tocFieldUsing theSyllabus)                                                 `mappend`
                 courseContext
         return theSyllabus
             >>= makeItem . itemBody 
             >>= loadAndApplyTemplate "templates/default.html" syllabusCtx 
             >>= applyAsTemplate syllabusCtx
+            >>= relativizeUrls
+
+slidesListCompiler = do 
+        notes       <- loadSortedMatchingCompiledNotes
+        firstUrl    <- if Prelude.null notes then return "" 
+                                             else itemUrl (head notes)
+        slides      <- loadSortedMatchingCompiledSlides
+        resourceMD  <- getResourceMD
+        matches     <- filterByMDMatch "course_title" slides
+        let slideListCtx = 
+                interpolationField "sideBar" "components/courseInfoSide.html"              `mappend`
+                (if Prelude.null notes then mempty else constField "first_note" firstUrl)  `mappend`
+                (if Prelude.null slides then mempty else constField "has_slides" "yes")    `mappend`
+                listField "slides" defaultContext (return slides)                          `mappend`
+                courseContext
+        makeItem "<p>The following slides are available for this course:</p>"
+            >>= loadAndApplyTemplate "templates/slideList.html" slideListCtx 
+            >>= applyAsTemplate slideListCtx
             >>= relativizeUrls
             --
 --interleaves the toc and pandoc versions of a note, and uses those to
@@ -181,12 +218,14 @@ noteCompiler = do
         underlying     <- getUnderlying
         notes          <- loadSortedMatchingCompiledNotes
         firstUrl       <- itemUrl (head notes)
+        slides         <- loadSortedMatchingCompiledSlides
         let splitNotes = span (\x -> itemIdentifier x /= setVersion (Just "pandoc") underlying) notes
             noteCtx = 
                 interpolationField "sideBar" "components/noteSide.html"                     `mappend`
                 listField "priorNotes"  defaultContext (return $ fst splitNotes)            `mappend`
                 listField "theNote"     defaultContext (return $ [head (snd splitNotes)])   `mappend`
                 listField "postNotes"   defaultContext (return $ tail $ snd splitNotes)     `mappend`
+                (if Prelude.null slides then mempty else constField "has_slides" "yes")     `mappend`
                 tocField                                                                    `mappend`
                 constField "first_note" firstUrl                                            `mappend`
                 courseContext

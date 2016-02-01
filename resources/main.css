@@ -192,7 +192,6 @@ sub {
 }
 #navBar div {
     font-size:48px;
-    display:inline-block;
 }
 #navbar a, #sidebar a {
     background-image:none;

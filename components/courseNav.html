@@ -3,11 +3,13 @@
         About
     </a>
 </div>
+
 <div id="Syllabus" >
     <a href="Syllabus.html">
         Syllabus
     </a>
 </div>
+
 $if(first_note)$
 <div  id="Notes">
     <a href="$first_note$">
@@ -15,17 +17,19 @@ $if(first_note)$
     </a>
 </div>
 $endif$
+
+$if(has_slides)$
+<div  id="Slides">
+    <a href="Slides.html">
+        Slides
+    </a>
+</div>
+$endif$
+
 $if(wiki)$
 <div  id="Wiki">
     <a href="$wiki$">
         Wiki
-    </a>
-</div>
-$endif$
-$if(first_slide)$
-<div  id="Wiki">
-    <a href="$wiki$">
-        Slides
     </a>
 </div>
 $endif$

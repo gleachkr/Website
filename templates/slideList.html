@@ -1,0 +1,38 @@
+<html>
+<head>
+    $if(js)$
+        $js$
+    $endif$
+    $if(css)$
+    <link href="/resources/$css$" rel="stylesheet" media="screen" type="text/css" >
+    $endif$
+    <link href="/resources/main.css" rel="stylesheet" media="screen" type="text/css" >
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+</head>
+<body id='body'>
+<div id='outerBar'>
+    <div id="navBar">
+        $navBar$
+    </div>
+    <div id="sideBar">
+        $sideBar$
+    </div>
+</div>
+<div id="content">
+    $if(splash)$
+    <div id="splashDiv">
+        $splash$
+    </div>
+    $endif$
+    <div id="mainText">
+    $body$
+
+    <ol>
+        $for(slides)$
+        <li><a href=$url$>$slide_title$</a></li>
+        $endfor$
+    </ol>
+    </div>
+</div>
+</body>
+</html>
