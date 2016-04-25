@@ -19,7 +19,7 @@ import           System.IO.Unsafe
 --------------------------------------------------------------------------------
 theConfiguration :: Configuration
 theConfiguration = defaultConfiguration 
-    {deployCommand = "s3cmd sync ~/Sites/MySite/_site/ s3://grahamlk.net"}
+    {deployCommand = "aws s3 sync ~/projects/Website/_site/ s3://grahamlk.net"}
 
 main :: IO ()
 main = hakyllWith theConfiguration $ do
@@ -138,9 +138,9 @@ fayToJsCompiler = do
         path   <- getResourceFilePath
         let dir = takeDirectory path
         let localConfig = unsafePerformIO defaultConfigWithSandbox 
-        let localConfig' = addConfigDirectoryIncludePaths [dir] localConfig
+        let localConfig' = addConfigPackage "fay" $ addConfigDirectoryIncludePaths [dir] $ localConfig
         fayOut <- unsafeCompiler (compileFile localConfig' path)
-        makeItem (mergeCases fayOut)
+        makeItem (mergeCases fayOut localConfig')
 
 --returns a list of the titles of notes, in chronological order, from the
 --same course as the salient resource
@@ -283,9 +283,8 @@ tocFieldUsing :: Item a -> Context b
 tocFieldUsing itemUsed = field "toc" $ \item ->
             loadBody ((itemIdentifier itemUsed) { identifierVersion = Just "toc"})
 
-mergeCases :: Show a => Either a String -> String
-mergeCases (Left e) = show e
-mergeCases (Right s) = s 
+mergeCases (Left e) s' = show e ++ show s'
+mergeCases (Right s) s' = s 
 
 courseContext :: Context String
 courseContext = interpolationField "navBar" "components/courseNav.html" `mappend`

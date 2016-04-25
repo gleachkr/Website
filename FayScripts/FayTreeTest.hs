@@ -1,5 +1,5 @@
 {-# LANGUAGE EmptyDataDecls #-}
-module Hello where
+module FayTreeTest where
 
 import Fay.FFI
 import JavascriptFrontmatter
